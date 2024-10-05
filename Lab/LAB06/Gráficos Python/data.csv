@@ -1,0 +1,37 @@
+Tamanho,Tipo,Metodo,Tempo (ms),Comparacoes,Trocas
+100,Aleatório,Primeiro Pivô,1,465,190
+100,Aleatório,Último Pivô,1,592,184
+100,Aleatório,Pivô Aleatório,0,427,290
+100,Aleatório,Mediana de Três,0,342,196
+100,Ordenado,Primeiro Pivô,1,4950,99
+100,Ordenado,Último Pivô,0,4950,99
+100,Ordenado,Pivô Aleatório,0,642,198
+100,Ordenado,Mediana de Três,0,480,63
+100,Quase Ordenado,Primeiro Pivô,0,1805,106
+100,Quase Ordenado,Último Pivô,0,1743,107
+100,Quase Ordenado,Pivô Aleatório,0,787,212
+100,Quase Ordenado,Mediana de Três,0,455,78
+1000,Aleatório,Primeiro Pivô,0,8423,2684
+1000,Aleatório,Último Pivô,1,10284,2620
+1000,Aleatório,Pivô Aleatório,1,8605,3642
+1000,Aleatório,Mediana de Três,1,6477,2668
+1000,Ordenado,Primeiro Pivô,1,499500,999
+1000,Ordenado,Último Pivô,1,499500,999
+1000,Ordenado,Pivô Aleatório,0,12768,1998
+1000,Ordenado,Mediana de Três,0,7987,511
+1000,Quase Ordenado,Primeiro Pivô,0,27809,1209
+1000,Quase Ordenado,Último Pivô,0,30547,1193
+1000,Quase Ordenado,Pivô Aleatório,1,10669,2265
+1000,Quase Ordenado,Mediana de Três,0,7899,913
+10000,Aleatório,Primeiro Pivô,1,122170,34640
+10000,Aleatório,Último Pivô,2,121523,34424
+10000,Aleatório,Pivô Aleatório,2,126903,43774
+10000,Aleatório,Mediana de Três,1,82900,35336
+10000,Ordenado,Primeiro Pivô,30,49995000,9999
+10000,Ordenado,Último Pivô,27,49995000,9999
+10000,Ordenado,Pivô Aleatório,1,162311,19998
+10000,Ordenado,Mediana de Três,0,113631,5904
+10000,Quase Ordenado,Primeiro Pivô,0,285922,13326
+10000,Quase Ordenado,Último Pivô,0,280840,13348
+10000,Quase Ordenado,Pivô Aleatório,1,161884,23852
+10000,Quase Ordenado,Mediana de Três,1,115660,10343

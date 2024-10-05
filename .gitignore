@@ -1,1 +1,18 @@
+# Ignorar pastas .vscode
 **/.vscode/
+
+# Ignorar pastas bin e obj em qualquer diretório
+**/bin/
+**/obj/
+
+# Ignorar pacotes NuGet em qualquer diretório
+**/packages/
+
+# Ignorar arquivos de projeto do Visual Studio (.csproj e .sln)
+*.csproj
+*.sln
+
+# Ignorar arquivos da IDE Code::Blocks
+*.cbp
+*.depend
+*.layout

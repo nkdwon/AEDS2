@@ -1,0 +1,1 @@
+Exercícios feitos para estudo Pré Prova e desenvolvimento próprio
