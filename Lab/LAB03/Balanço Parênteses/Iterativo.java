@@ -28,15 +28,13 @@ public class Iterativo {
     String str;
     do {
       str = sc.nextLine();
-      if (str.equals("FIM")) {
-        return;
+      if (!str.equals("FIM")) {
+        if (contaParenteses(str)) {
+          System.out.println("correto");
+        } else {
+          System.out.println("incorreto");
+        }
       }
-      if (contaParenteses(str)) {
-        System.out.println("correto");
-      } else {
-        System.out.println("incorreto");
-      }
-
     } while (!str.equals("FIM"));
     sc.close();
   }
