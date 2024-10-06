@@ -1,9 +1,8 @@
-
 import pandas as pd
 import matplotlib.pyplot as plt
 
-# Ler os dados do CSV
-df = pd.read_csv(r'd:\FELIPE\PUC Faculdade\SEMESTRE II\AEDS2\Lab\LAB06\Gráficos Python\data.csv')
+# Ler os dados do CSV - Aponte o seu caminho para o arquivo
+df = pd.read_csv('data.csv')
 
 # Filtrar os dados por tamanho de array
 array_100 = df[df['Tamanho'] == 100]
