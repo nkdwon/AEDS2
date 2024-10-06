@@ -35,3 +35,5 @@ Tamanho,Tipo,Metodo,Tempo (ms),Comparacoes,Trocas
 10000,Quase Ordenado,Último Pivô,0,280840,13348
 10000,Quase Ordenado,Pivô Aleatório,1,161884,23852
 10000,Quase Ordenado,Mediana de Três,1,115660,10343
+
+
