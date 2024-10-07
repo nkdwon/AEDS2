@@ -1,18 +1,13 @@
-## Getting Started
+## JAVA
+### TP02Q01 - Classe em Java
+#### Descrição
+Crie uma classe Pokémon seguindo todas as regras apresentadas no slide [aqui](https://github.com/icei-pucminas/aeds2/blob/master/aulas/u00\%20Nivelamento/unidade00l_nivelamento_introducaoOO.pdf). Sua classe terá os atributos privado id int, generation int, name String, description String, types Lista, abilities Lista, weight double, height double, captureRate int, isLegendary boolean, captureDate Date. Sua classe também terá pelo menos dois construtores, e os métodos gets, sets, clone, imprimir e ler.
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+O método *imprimir* mostra os atributos do registro (ver cada linha da saída padrão) e o *ler* lê os atributos de um registro. Atenção para o arquivo de entrada, pois em alguns registros faltam valores e esse foi substituído pelo valor 0 (zero) ou vazio. A entrada padrão é composta por várias linhas e cada uma contém um número inteiro indicando o id do Pokémon a ser lido.
 
-## Folder Structure
+A última linha da entrada contém a palavra FIM. A saída padrão também contém várias linhas, uma para cada registro contido em uma linha da entrada padrão, no seguinte formato:
 
-The workspace contains two folders by default, where:
+*`[#id -> name: description - [types] - [abilities] - weight - height - captureRate - isLegendary - generation] - captureDate].`*
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
+Exemplo: *`[#181 -> Ampharos: Light Pokémon - ['electric'] - ['Static', 'Plus'] - 61.5kg - 1.4m - 45% - false - 2 gen] - 25/05/1999`*
 
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
-
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
-
-## Dependency Management
-
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
