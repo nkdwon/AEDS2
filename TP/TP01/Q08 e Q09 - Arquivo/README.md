@@ -1,18 +1,9 @@
-## Getting Started
+## JAVA
+### TP01Q08 - Arquivo em Java
+#### Descrição
+Faça um programa que leia um número inteiro $n$ indicando o número de valores reais que devem ser lidos e salvos sequencialmente em um arquivo texto. Após a leitura dos valores, devemos fechar o arquivo. Em seguida, reabri-lo e fazer a leitura de trás para frente usando os métodos `getFilePointer` e `seek` da classe `RandomAccessFile` e mostre todos os valores lidos na tela. Nessa questão, você não pode usar, arrays, strings ou qualquer estrutura de dados. A entrada padrão é composta por um número inteiro $n$ e mais $n$ números reais. A saída padrão corresponde a $n$ números reais mostrados um por linha de saída.
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
-
-## Folder Structure
-
-The workspace contains two folders by default, where:
-
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
-
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
-
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
-
-## Dependency Management
-
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+## C
+### TP01Q09 - Arquivo
+#### Descrição
+Refaça a questão 8 na linguagem C.
