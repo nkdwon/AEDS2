@@ -6,4 +6,4 @@ Crie um método *iterativo* que recebe uma string como parâmetro e retorna true
 ## C
 ### TP01Q11 - RECURSIVO - Palíndromo em C
 #### Descrição
-Refaça a questão 1, porém agora crie um método *recursivo*.
+Refaça a questão 2, porém agora crie um método *recursivo*.
