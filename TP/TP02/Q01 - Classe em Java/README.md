@@ -11,3 +11,4 @@ A última linha da entrada contém a palavra FIM. A saída padrão também cont�
 
 Exemplo: *`[#181 -> Ampharos: Light Pokémon - ['electric'] - ['Static', 'Plus'] - 61.5kg - 1.4m - 45% - false - 2 gen] - 25/05/1999`*
 
+**Observação:** A classe "*MainVerde*" é a combinação das classes "*Main*" e "*Pokemon*", criada especificamente para submissão na plataforma Verde. Estas classes são suficientes e essenciais para o funcionamento correto do programa.
