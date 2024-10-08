@@ -4,7 +4,6 @@ public class Main {
     public static void main(String[] args) throws Exception {
         
         String caminhoCsv = "./tmp/pokemon.csv"; // Caminho do arquivo CSV
-        // caminho = "C:/Users/FELIPE/AppData/Local/Temp/pokemon.csv"; Caminho pasta "tmp" no Windows
 
         Scanner scanId = new Scanner(System.in);
         String entrada;
