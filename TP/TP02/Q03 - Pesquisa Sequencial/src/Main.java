@@ -41,7 +41,6 @@ public class Main {
 
         // Log de tempo de execução
         TimeLog timeLog = new TimeLog();
-        timeLog.start(); // Início da medição do tempo
         
         while (true) {
             entrada = scanId.nextLine();
@@ -76,6 +75,8 @@ public class Main {
         }
 
         int countComps = 0;
+        timeLog.start(); // Início da medição do tempo
+
         while(true){
             nomePokemon = scanPokemon.nextLine();
 
@@ -95,6 +96,7 @@ public class Main {
                 System.out.println("NÃO");
             }
         }
+        timeLog.end(); // Para o temporizador de pesquisa
 
         scanPokemon.close();
         scanId.close();
