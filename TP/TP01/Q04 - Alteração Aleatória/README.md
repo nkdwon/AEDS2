@@ -1,18 +1,12 @@
-## Getting Started
+## JAVA
+### TP01Q04 - Alteração Aleatória
+#### Descrição
+Crie um método iterativo que recebe uma string, sorteia duas letras minúsculas aleatórias (código ASCII > 'a' e < 'z'), substitui todas as ocorrências da primeira letra na string pela segunda e retorna a string com as alterações efetuadas. Na saída padrão, para cada linha de entrada, execute o método desenvolvido nesta questão e mostre a string retornada como uma linha de saída. Abaixo, observamos um exemplo de entrada supondo que para a primeira linha as letras sorteados foram o 'a' e o 'q'. Para a segunda linha, foram o 'e' e o 'k'.
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+A classe Random do Java gera números (ou letras) aleatórios e o exemplo abaixo mostra uma letra minúscula na tela. Em especial, destacamos que: i) \textit{seed} é a semente para geração de números aleatórios; ii) nesta questão, por causa da correção automática, a \textit{seed} será quatro; iii) a disciplina de Estatística e Probabilidade faz uma discussão sobre ``aleatório''.
+```java
+Random gerador = new Random(); 
 
-## Folder Structure
+gerador.setSeed(4); 
 
-The workspace contains two folders by default, where:
-
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
-
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
-
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
-
-## Dependency Management
-
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+System.out.println((char)('a' + (Math.abs(gerador.nextInt()) % 26)));```
