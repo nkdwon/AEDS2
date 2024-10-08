@@ -33,8 +33,7 @@ public class Main {
 
         String caminhoCsv = "/tmp/pokemon.csv"; // Caminho do arquivo CSV
 
-        Scanner scanId = new Scanner(System.in);
-        Scanner scanPokemon = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
         String entrada;
         String nomePokemon;
         ArrayList<Pokemon> pokedex = new ArrayList<Pokemon>();
@@ -43,7 +42,7 @@ public class Main {
         TimeLog timeLog = new TimeLog();
         
         while (true) {
-            entrada = scanId.nextLine();
+            entrada = scanner.nextLine();
 
             if (entrada.equals("FIM")) {
                 break;
@@ -76,10 +75,9 @@ public class Main {
 
         int countComps = 0;
         timeLog.start(); // Início da medição do tempo
-
+        
         while(true){
-            nomePokemon = scanPokemon.nextLine();
-
+            nomePokemon = scanner.nextLine();
             if(nomePokemon.equals("FIM")){
                 break;
             }
@@ -93,13 +91,11 @@ public class Main {
                 }
             }
             if(!encontrado){
-                System.out.println("NÃO");
+                System.out.println("NAO");
             }
         }
-        timeLog.end(); // Para o temporizador de pesquisa
 
-        scanPokemon.close();
-        scanId.close();
+        scanner.close();
 
         // Finaliza a medição do tempo
         timeLog.end();

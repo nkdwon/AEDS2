@@ -1,0 +1,3 @@
+// Este aqui é um exemplo de teste que rodei em minha máquina e me foi gerado este log.
+// Caso queira, você pode gerar este log em outra pasta, basta descomentar a variável logPath na main e passá-la no FileWriter
+732683 0ms 1156 comparações
