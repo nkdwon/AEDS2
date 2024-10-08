@@ -31,7 +31,7 @@ class TimeLog{
 public class Main {
     public static void main(String[] args) throws Exception {
 
-        String caminhoCsv = "./tmp/pokemon.csv"; // Caminho do arquivo CSV
+        String caminhoCsv = "/tmp/pokemon.csv"; // Caminho do arquivo CSV
 
         Scanner scanId = new Scanner(System.in);
         Scanner scanPokemon = new Scanner(System.in);
@@ -105,6 +105,9 @@ public class Main {
         // Criação do arquivo de log
         String matricula = "732683"; 
         String logContent = matricula + " " + timeLog.getTime() + "ms " + countComps + " comparações";
+
+        // Defina o caminho para a pasta tmp ou a pasta que deseja salvar o arquivo de log
+        //String logPath = "../tmp/" + matricula + "_sequencial.txt";
 
         try (FileWriter logWriter = new FileWriter(matricula + "_sequencial.txt")) {
             logWriter.write(logContent);
