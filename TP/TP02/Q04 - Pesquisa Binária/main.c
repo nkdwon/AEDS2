@@ -295,13 +295,82 @@ Pokemon *buscarPokemonPorId(Pokemon *lista[], int tamanhoLista, int id)
     return NULL;
 }
 
+void swap(Pokemon *p1, Pokemon *p2){
+    Pokemon tmp = *p1;
+    *p1 = *p2;
+    *p2 = tmp;
+}
+
+//ORDENAR PELO NOME DO POKÉMON
+void ordenaPokedex(Pokemon *pokedex[], int esq, int dir){
+    int i = esq, j = dir;
+    Pokemon *pokemonPivo = pokedex[(dir+esq)/2];
+    while (i <= j) {
+        while (strcmp(pokedex[i]->name, pokemonPivo->name) < 0) i++;
+        while (strcmp(pokedex[j]->name,  pokemonPivo->name) < 0) j--;
+        if (i <= j) {
+            swap(pokedex[i], pokedex[j]);
+            i++;    
+            j--;
+        }
+    }
+    if (esq < j)  ordenaPokedex(pokedex, esq, j);
+    if (i < dir)  ordenaPokedex(pokedex, i, dir);
+}
+
+// MÉTODO PARA PESQUISA BINÁRIA
+int imprimiPorPesquisaBinaria(Pokemon *pokedex[], int numPokemons){
+    int countComps = 0;
+    char input[MAX_NAME_LEN];
+
+    scanf("%s",input);
+
+    while(strcmp(input, "FIM") != 0){
+
+        int esq = 0;
+        int dir = (numPokemons - 1);
+        int encontrado = 0;    
+
+        while (esq <= dir){
+            int meio = (esq + dir) / 2;
+
+            countComps++;
+            int cmp = strcmp(input, pokedex[meio]->name);
+            
+            if(cmp == 0){
+                printf("SIM\n");
+                encontrado = 1;
+                break;
+            } else if (cmp > 0)  {
+                esq = meio + 1;
+            } else {
+                dir = meio - 1;
+            }
+        }
+
+        if(!encontrado){
+            printf("NAO\n");
+        }
+
+        scanf("%s",input);
+    }    
+    return countComps;
+}
+
 int main()
 {
+    // Variáveis para leitura do arquivo
     FILE *arquivo;
     Pokemon **listaPokemons = NULL;
     int numPokemons = 0;
     char input[MAX_NAME_LEN];
 
+    // Variáveis para ordenar e imprimir os Pokémons presentes em outra lista
+    int numPokemonsPokedex = 0;
+    Pokemon **pokedex = NULL;
+    clock_t start, end;
+
+    printf("antes");
     // Diretório arquivo CSV
     arquivo = fopen("/tmp/pokemon.csv", "r");
     if (arquivo == NULL)
@@ -313,6 +382,7 @@ int main()
     char linha[MAX_LINE_LEN];
     // Lê o cabeçalho do arquivo
     fgets(linha, MAX_LINE_LEN, arquivo);
+    printf("Cabeçalho lido: %s", linha);
 
     // Leitura do arquivo CSV
     while (fgets(linha, MAX_LINE_LEN, arquivo) != NULL)
@@ -334,9 +404,9 @@ int main()
         Pokemon *pokemonEncontrado = buscarPokemonPorId(listaPokemons, numPokemons, id);
         if (pokemonEncontrado)
         {
-            // CÓDIGO PARA PRINTAR POKÉMONS ORDERNADOS -- FUTURAMENTE!!!!!!!
-            //array_pokemons[x++] = pokemonEcontrado;
-            printPokemon(pokemonEncontrado);
+            pokedex = realloc(pokedex, (numPokemonsPokedex + 1) * sizeof(Pokemon *));
+            pokedex[numPokemonsPokedex] = pokemonEncontrado; 
+            numPokemonsPokedex++;
         }
         else
         {
@@ -345,8 +415,25 @@ int main()
         scanf("%s", input);
     }
 
-    // CÓDIGO PARA ORDERNAR -- FUTURAMENTE!!!!!!!
-    // for ( int i = 0; i < x; i++) printPokemon(array_pokemons[i]);
+    // Medir o tempo de execução da ordenação e busca binária
+    start = clock();
+    ordenaPokedex(pokedex, 0, numPokemonsPokedex -1 );
+    int countComps = imprimiPorPesquisaBinaria(pokedex, numPokemonsPokedex);
+    end = clock();
+
+    // Escrever arquivo de log
+    FILE *logFile = fopen("732683_binaria.txt", "w");
+    if (logFile == NULL) {
+
+        printf("Erro ao criar o arquivo de log.\n");
+        return 1;
+
+    } else {
+        // Calcula o tempo gasto em milissegundos
+        double timeTaken = ((double)(end - start)) / CLOCKS_PER_SEC * 1000;
+        fprintf(logFile, "732683\t%.2f\tms\t%d\tcomparações", timeTaken, countComps);
+        fclose(logFile);
+    }
 
     //Liberar a memória alocada para os Pokemons
     for (int i = 0; i < numPokemons; i++)
@@ -354,6 +441,7 @@ int main()
         freePokemon(listaPokemons[i]);
     }
     free(listaPokemons);
+    free(pokedex);
 
     return 0;
 }
