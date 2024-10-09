@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 #include <time.h> // Para manipulação de datas
 
 #define MAX_NAME_LEN 100
@@ -319,42 +320,26 @@ void ordenaPokedex(Pokemon *pokedex[], int esq, int dir){
 }
 
 // MÉTODO PARA PESQUISA BINÁRIA
-int imprimiPorPesquisaBinaria(Pokemon *pokedex[], int numPokemons){
-    int countComps = 0;
-    char input[MAX_NAME_LEN];
+bool imprimiPorPesquisaBinaria(Pokemon **pokedex, int numPokemonsPokedex, char *nomePokemon, int countComps){
 
-    scanf("%s",input);
+    int esq = 0;
+    int dir = (numPokemonsPokedex - 1);  
 
-    while(strcmp(input, "FIM") != 0){
+    while (esq <= dir){
+        int meio = (esq + dir) / 2;
 
-        int esq = 0;
-        int dir = (numPokemons - 1);
-        int encontrado = 0;    
-
-        while (esq <= dir){
-            int meio = (esq + dir) / 2;
-
-            countComps++;
-            int cmp = strcmp(input, pokedex[meio]->name);
+        countComps++;
+        int cmp = strcmp(pokedex[meio]->name, nomePokemon);
             
-            if(cmp == 0){
-                printf("SIM\n");
-                encontrado = 1;
-                break;
-            } else if (cmp > 0)  {
-                esq = meio + 1;
-            } else {
-                dir = meio - 1;
-            }
+        if(cmp == 0){
+            return true;
+        } else if (cmp < 0)  {
+            esq = meio + 1;
+        } else {
+            dir = meio - 1;
         }
-
-        if(!encontrado){
-            printf("NAO\n");
-        }
-
-        scanf("%s",input);
-    }    
-    return countComps;
+    }
+    return false;
 }
 
 int main()
@@ -370,7 +355,6 @@ int main()
     Pokemon **pokedex = NULL;
     clock_t start, end;
 
-    printf("antes");
     // Diretório arquivo CSV
     arquivo = fopen("/tmp/pokemon.csv", "r");
     if (arquivo == NULL)
@@ -382,7 +366,6 @@ int main()
     char linha[MAX_LINE_LEN];
     // Lê o cabeçalho do arquivo
     fgets(linha, MAX_LINE_LEN, arquivo);
-    printf("Cabeçalho lido: %s", linha);
 
     // Leitura do arquivo CSV
     while (fgets(linha, MAX_LINE_LEN, arquivo) != NULL)
@@ -397,7 +380,6 @@ int main()
     fclose(arquivo);
 
     scanf("%s", input);
-
     while (strcmp(input, "FIM") != 0)
     {
         int id = atoi(input);
@@ -418,7 +400,17 @@ int main()
     // Medir o tempo de execução da ordenação e busca binária
     start = clock();
     ordenaPokedex(pokedex, 0, numPokemonsPokedex -1 );
-    int countComps = imprimiPorPesquisaBinaria(pokedex, numPokemonsPokedex);
+    int countComps = 0;
+
+    scanf("%s", input);
+    while(strcmp(input, "FIM") != 0){
+        if(imprimiPorPesquisaBinaria(pokedex, numPokemonsPokedex, input, countComps)){
+            printf("SIM\n");
+        } else{
+            printf("NÃO\n");
+        }
+        scanf("%s", input);
+    }
     end = clock();
 
     // Escrever arquivo de log
@@ -435,13 +427,13 @@ int main()
         fclose(logFile);
     }
 
-    //Liberar a memória alocada para os Pokemons
+    /* //Liberar a memória alocada para os Pokemons
     for (int i = 0; i < numPokemons; i++)
     {
         freePokemon(listaPokemons[i]);
     }
     free(listaPokemons);
-    free(pokedex);
+    free(pokedex); */
 
     return 0;
 }
