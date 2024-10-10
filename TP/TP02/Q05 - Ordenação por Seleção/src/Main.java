@@ -34,7 +34,7 @@ class Contador {
     int swaps = 0;
 }
 
-public class Main {
+class SelectionSort{
 
     // MÉTODO SWAP
     static void swap(ArrayList<Pokemon> pokedex, int i, int menor) {
@@ -44,7 +44,7 @@ public class Main {
     }
 
     // MÉTODO PARA ORDERNAR OS POKÉMONS ATRAVÉS DO MÉTODO SELECTION SORT
-    static void ordernarPorSelecao(ArrayList<Pokemon> pokedex, Contador contador) {
+    void ordernarPorSelecao(ArrayList<Pokemon> pokedex, Contador contador) {
         for (int i = 0; i < pokedex.size(); i++) {
             int menor = i;
             for (int j = i + 1; j < pokedex.size(); j++) {
@@ -59,6 +59,9 @@ public class Main {
             }
         }
     }
+}
+
+public class Main {
 
     // MÉTODO PARA IMPRIMIR OS POKÉMONS ORDENADOS E COM IDS PASSADOS
     static void imprimirPokemonsOrdenados(ArrayList<Pokemon> pokedex) {
@@ -88,7 +91,6 @@ public class Main {
             // Verifica se a entrada contém apenas números
             if (entrada.matches("\\d+")) { // Verifica se a string contém apenas dígitos
                 try {
-
                     int id = Integer.parseInt(entrada); // Converte para inteiro
 
                     Pokemon pokemonEncontrado = Pokemon.buscarPokemonPorId(caminhoCsv, id);
@@ -111,10 +113,11 @@ public class Main {
         }
 
         Contador contador = new Contador();
+        SelectionSort selection = new SelectionSort();
 
         // Mede o tempo de execução ao ordenar
         timeLog.start();
-        ordernarPorSelecao(pokedex, contador);
+        selection.ordernarPorSelecao(pokedex, contador);
         timeLog.end();
 
         // Chama o método para imprimir os Pokémons ordenados
@@ -138,7 +141,6 @@ public class Main {
             e.printStackTrace();
         }
     }
-
 }
 
 class Pokemon {
