@@ -116,6 +116,7 @@ Pokemon *createPokemon(int id, int generation, const char *name, const char *des
     strcpy(pokemon->types[0], type1);
     if (type2 && strlen(type2) > 0)
     {
+        pokemon->types[1] = malloc(strlen(type2) + 1);
         strcpy(pokemon->types[1], type2);
     }
     else
