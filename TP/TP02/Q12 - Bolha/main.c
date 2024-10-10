@@ -331,7 +331,7 @@ int main()
 
     // Variáveis para ordenar e imprimir os Pokémons presentes em outra lista
     int numPokemonsPokedex = 0;
-    Pokemon *pokedex = malloc((500) * sizeof(Pokemon));
+    Pokemon *pokedex = malloc((802) * sizeof(Pokemon));
     clock_t start, end;
 
     // Diretório arquivo CSV

@@ -307,39 +307,25 @@ void swap(Pokemon *a, Pokemon *b) {
 }
 
 // Função de comparação e ordenação
-void quickSortGeneration(Pokemon pokedex[], int esq, int dir) {
-    int i = esq, j = dir;
-    Pokemon pokemonPivo = pokedex[(esq + dir) / 2]; // Escolhe o pivô como o elemento do meio
+void selecaoRecursivoName(Pokemon pokedex[], int size, int i) {
 
-    while (i <= j) {
- 
-        while (pokedex[i].generation < pokemonPivo.generation || 
-            (pokedex[i].generation == pokemonPivo.generation && strcmp(pokedex[i].name, pokemonPivo.name) < 0)) {
-            (countComps)++;
-            i++;
+    if(i >= size){
+        return;
+    }   
+        int menor = i;
+        for(int j = i+1; j < size; j++){
+            (countComps)++; // Contar comparação
+            // Compare os Pokémon por nome
+            if ((strcmp(pokedex[menor].name, pokedex[j].name) > 0)) {
+                menor = j;
+            }
         }
-        
-        while (pokedex[j].generation > pokemonPivo.generation || 
-            (pokedex[j].generation == pokemonPivo.generation && strcmp(pokedex[j].name, pokemonPivo.name) > 0)) {
-            (countComps)++;
-            j--;
+        if(menor != i){
+            (countSwaps)++; // Contar troca
+            swap(&pokedex[i], &pokedex[menor]); // Troca
         }
 
-        if (i <= j) {
-            (countSwaps)++;
-            swap(&pokedex[i], &pokedex[j]); // Troca
-            i++;
-            j--;
-        }
-    }
-
-    // Chamada recursiva para as sublistas
-    if (esq < j) {
-        quickSortGeneration(pokedex, esq, j);
-    }
-    if (i < dir) {
-        quickSortGeneration(pokedex, i, dir);
-    }
+    selecaoRecursivoName(pokedex, size, ++i);
 }
 
 int main()
@@ -398,17 +384,16 @@ int main()
 
     pokedex = realloc(pokedex, (numPokemonsPokedex + 1) * sizeof(Pokemon));
 
-
     // Medir o tempo de execução da ordenação e busca binária
     start = clock();
-    quickSortGeneration(pokedex, 0, numPokemonsPokedex - 1);
+    selecaoRecursivoName(pokedex, numPokemonsPokedex, 0);
     for(int i = 0; i < numPokemonsPokedex; i++){
         printPokemon(&pokedex[i]);
     }
     end = clock();
 
     // Escrever arquivo de log
-    FILE *logFile = fopen("732683_quicksort.txt", "w");
+    FILE *logFile = fopen("732683_selecaoRecursiva.txt", "w");
     if (logFile == NULL) {
 
         printf("Erro ao criar o arquivo de log.\n");
