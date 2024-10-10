@@ -117,6 +117,7 @@ Pokemon *createPokemon(int id, int generation, const char *name, const char *des
     strcpy(pokemon->types[0], type1);
     if (type2 && strlen(type2) > 0)
     {
+        pokemon->types[1] = malloc(strlen(type2) + 1);
         strcpy(pokemon->types[1], type2);
     }
     else
@@ -308,7 +309,7 @@ void ordenaPokedex(Pokemon *pokedex[], int esq, int dir){
     Pokemon *pokemonPivo = pokedex[(dir+esq)/2];
     while (i <= j) {
         while (strcmp(pokedex[i]->name, pokemonPivo->name) < 0) i++;
-        while (strcmp(pokedex[j]->name,  pokemonPivo->name) < 0) j--;
+        while (strcmp(pokedex[j]->name,  pokemonPivo->name) > 0) j--;
         if (i <= j) {
             swap(pokedex[i], pokedex[j]);
             i++;    
@@ -320,7 +321,7 @@ void ordenaPokedex(Pokemon *pokedex[], int esq, int dir){
 }
 
 // MÉTODO PARA PESQUISA BINÁRIA
-bool imprimiPorPesquisaBinaria(Pokemon **pokedex, int numPokemonsPokedex, char *nomePokemon, int countComps){
+bool pesquisaBinaria(Pokemon **pokedex, int numPokemonsPokedex, char *nomePokemon, int *countComps){
 
     int esq = 0;
     int dir = (numPokemonsPokedex - 1);  
@@ -328,7 +329,7 @@ bool imprimiPorPesquisaBinaria(Pokemon **pokedex, int numPokemonsPokedex, char *
     while (esq <= dir){
         int meio = (esq + dir) / 2;
 
-        countComps++;
+        (*countComps)++;
         int cmp = strcmp(pokedex[meio]->name, nomePokemon);
             
         if(cmp == 0){
@@ -404,10 +405,10 @@ int main()
 
     scanf("%s", input);
     while(strcmp(input, "FIM") != 0){
-        if(imprimiPorPesquisaBinaria(pokedex, numPokemonsPokedex, input, countComps)){
+        if(pesquisaBinaria(pokedex, numPokemonsPokedex, input, &countComps)){
             printf("SIM\n");
         } else{
-            printf("NÃO\n");
+            printf("NAO\n");
         }
         scanf("%s", input);
     }
@@ -423,17 +424,17 @@ int main()
     } else {
         // Calcula o tempo gasto em milissegundos
         double timeTaken = ((double)(end - start)) / CLOCKS_PER_SEC * 1000;
-        fprintf(logFile, "732683\t%.2f\tms\t%d\tcomparações", timeTaken, countComps);
+        fprintf(logFile, "732683\t%.2fms\t%d\tcomparações", timeTaken, countComps);
         fclose(logFile);
     }
 
-    /* //Liberar a memória alocada para os Pokemons
+    //Liberar a memória alocada para os Pokemons
     for (int i = 0; i < numPokemons; i++)
     {
         freePokemon(listaPokemons[i]);
     }
     free(listaPokemons);
-    free(pokedex); */
+    free(pokedex);
 
     return 0;
 }
