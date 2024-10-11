@@ -384,7 +384,7 @@ int main()
 
     pokedex = realloc(pokedex, (numPokemonsPokedex + 1) * sizeof(Pokemon));
 
-    // Medir o tempo de execução da ordenação e busca binária
+    // Medir o tempo de execução da ordenação
     start = clock();
     selecaoRecursivoName(pokedex, numPokemonsPokedex, 0);
     for(int i = 0; i < numPokemonsPokedex; i++){

@@ -399,7 +399,7 @@ int main()
     pokedex = realloc(pokedex, (numPokemonsPokedex + 1) * sizeof(Pokemon));
 
 
-    // Medir o tempo de execução da ordenação e busca binária
+    // Medir o tempo de execução da ordenação
     start = clock();
     quickSortGeneration(pokedex, 0, numPokemonsPokedex - 1);
     for(int i = 0; i < numPokemonsPokedex; i++){
