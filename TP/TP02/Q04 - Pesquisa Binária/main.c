@@ -9,6 +9,7 @@
 #define MAX_TYPES 2
 #define MAX_ABILITIES 100
 #define MAX_LINE_LEN 1024
+int countComps = 0;
 
 typedef struct
 {
@@ -304,14 +305,14 @@ void swap(Pokemon *p1, Pokemon *p2){
 }
 
 //ORDENAR PELO NOME DO POKÉMON
-void ordenaPokedex(Pokemon *pokedex[], int esq, int dir){
+void ordenaPokedex(Pokemon pokedex[], int esq, int dir){
     int i = esq, j = dir;
-    Pokemon *pokemonPivo = pokedex[(dir+esq)/2];
+    Pokemon pokemonPivo = pokedex[(dir+esq)/2];
     while (i <= j) {
-        while (strcmp(pokedex[i]->name, pokemonPivo->name) < 0) i++;
-        while (strcmp(pokedex[j]->name,  pokemonPivo->name) > 0) j--;
+        while (strcmp(pokedex[i].name, pokemonPivo.name) < 0) i++;
+        while (strcmp(pokedex[j].name,  pokemonPivo.name) > 0) j--;
         if (i <= j) {
-            swap(pokedex[i], pokedex[j]);
+            swap(&pokedex[i], &pokedex[j]);
             i++;    
             j--;
         }
@@ -321,7 +322,7 @@ void ordenaPokedex(Pokemon *pokedex[], int esq, int dir){
 }
 
 // MÉTODO PARA PESQUISA BINÁRIA
-bool pesquisaBinaria(Pokemon **pokedex, int numPokemonsPokedex, char *nomePokemon, int *countComps){
+bool pesquisaBinaria(Pokemon pokedex[], int numPokemonsPokedex, char *nomePokemon){
 
     int esq = 0;
     int dir = (numPokemonsPokedex - 1);  
@@ -329,8 +330,8 @@ bool pesquisaBinaria(Pokemon **pokedex, int numPokemonsPokedex, char *nomePokemo
     while (esq <= dir){
         int meio = (esq + dir) / 2;
 
-        (*countComps)++;
-        int cmp = strcmp(pokedex[meio]->name, nomePokemon);
+        countComps++;
+        int cmp = strcmp(pokedex[meio].name, nomePokemon);
             
         if(cmp == 0){
             return true;
@@ -353,7 +354,7 @@ int main()
 
     // Variáveis para ordenar e imprimir os Pokémons presentes em outra lista
     int numPokemonsPokedex = 0;
-    Pokemon **pokedex = NULL;
+    Pokemon *pokedex = malloc((802) * sizeof(Pokemon));
     clock_t start, end;
 
     // Diretório arquivo CSV
@@ -387,8 +388,7 @@ int main()
         Pokemon *pokemonEncontrado = buscarPokemonPorId(listaPokemons, numPokemons, id);
         if (pokemonEncontrado)
         {
-            pokedex = realloc(pokedex, (numPokemonsPokedex + 1) * sizeof(Pokemon *));
-            pokedex[numPokemonsPokedex] = pokemonEncontrado; 
+            pokedex[numPokemonsPokedex] = *pokemonEncontrado; 
             numPokemonsPokedex++;
         }
         else
@@ -398,14 +398,15 @@ int main()
         scanf("%s", input);
     }
 
+    pokedex = realloc(pokedex, (numPokemonsPokedex + 1) * sizeof(Pokemon));
+
     // Medir o tempo de execução da ordenação e busca binária
     start = clock();
-    ordenaPokedex(pokedex, 0, numPokemonsPokedex -1 );
-    int countComps = 0;
+    ordenaPokedex(pokedex, 0, numPokemonsPokedex -1);
 
     scanf("%s", input);
     while(strcmp(input, "FIM") != 0){
-        if(pesquisaBinaria(pokedex, numPokemonsPokedex, input, &countComps)){
+        if(pesquisaBinaria(pokedex, numPokemonsPokedex, input)){
             printf("SIM\n");
         } else{
             printf("NAO\n");
