@@ -1,0 +1,2 @@
+// Observação: Foram feitos 3 testes, o primeiro com o número de entradas padrão do pub.in (saída de 0ms), outro de 4k entradas (4ms), e o último com 13k (14ms).
+732683	0ms	213 comparações	254 trocas.
