@@ -1,0 +1,1 @@
+732683	0ms	226 comparações	293 trocas.
