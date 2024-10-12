@@ -308,8 +308,8 @@ void swap(Pokemon *a, Pokemon *b) {
 
 // Função de comparação e ordenação
 void bubbleSortId(Pokemon pokedex[], int size) {
-    for (int i = 0; i < size - 1; i++) {
-        for (int j = 0; j < size - i - 1; j++) {
+    for (int i = size - 1; i > 0; i--) {
+        for (int j = 0; j < i; j++) {
             (countComps)++; // Contar comparação
             // Compare o id dos Pokémon OU se id for igual, compara por nome
             if (pokedex[j].id > pokedex[j + 1].id || 
