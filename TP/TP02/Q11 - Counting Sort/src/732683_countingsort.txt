@@ -1,0 +1,2 @@
+// Os custos de cada método e do algoritmo foram dados em sua respectiva classe
+732683	3ms	51 comparações	0 trocas.
