@@ -57,7 +57,7 @@ class HeapSort {
     void ordenar() {
         int numPokemons = pokedex.size();
 
-        // Construção do heap a partir do índice 2 até o final
+        // Construção do heap a partir do índice 0 até o final
         for (int tamHeap = 1; tamHeap < numPokemons; tamHeap++) {
             construir(tamHeap);
         }
