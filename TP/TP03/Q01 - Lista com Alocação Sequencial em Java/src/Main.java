@@ -3,14 +3,110 @@ import java.util.stream.Collectors;
 import java.io.File;
 import java.text.*;
 
-public class Main {
+class Lista {
+    private Pokemon[] pokedex;
+    private int n;
 
-    // MÉTODO PARA IMPRIMIR OS POKÉMONS ORDENADOS E COM IDS PASSADOS
-    static void imprimirPokemonsOrdenados(ArrayList<Pokemon> pokedex) {
-        for (int i = 0; i < pokedex.size(); i++) {
-            System.out.println(pokedex.get(i));
+    public Lista() {
+        this(6);
+    }
+
+    public Lista(int tamanho) {
+        pokedex = new Pokemon[tamanho];
+        n = 0;
+    }
+
+    // Insere um elemento no final da lista
+    public void inserirInicio(Pokemon pokemon) throws Exception {
+        if (n >= pokedex.length) {
+            throw new Exception("Erro ao inserir, a lista já está cheia!");
+        }
+
+        for (int i = n; i > 0; i--) {
+            pokedex[i] = pokedex[i - 1];
+        }
+
+        pokedex[0] = pokemon;
+        n++;
+    }
+
+    // Insere um elemento no final da lista
+    public void inserirFim(Pokemon pokemon) throws Exception {
+        if (n >= pokedex.length) {
+            throw new Exception("Erro ao inserir, a lista já está cheia!");
+        }
+
+        pokedex[n] = pokemon;
+        n++;
+    }
+
+    // Insere um elemento em uma posição específica da lista, movendo elementos para
+    // a direita
+    public void inserir(Pokemon pokemon, int pos) throws Exception {
+        if (n >= pokedex.length || pos < 0 || pos > n) {
+            throw new Exception("Erro ao inserir, posição inválida ou lista cheia!");
+        }
+
+        for (int i = n; i > pos; i--) {
+            pokedex[i] = pokedex[i - 1];
+        }
+
+        pokedex[pos] = pokemon;
+        n++;
+    }
+
+    // Remove o elemento da primeira posição, deslocando os outros para a esquerda
+    public Pokemon removerInicio() throws Exception {
+        if (n == 0) {
+            throw new Exception("Erro ao remover, a lista está vazia!");
+        }
+
+        Pokemon resp = pokedex[0];
+        n--;
+
+        for (int i = 0; i < n; i++) {
+            pokedex[i] = pokedex[i + 1];
+        }
+
+        return resp;
+    }
+
+    // Remove o último elemento da lista, reduzindo `n`
+    public Pokemon removerFim() throws Exception {
+        if (n == 0) {
+            throw new Exception("Erro ao remover, a lista está vazia!");
+        }
+
+        return pokedex[--n];
+    }
+
+    // Remove um elemento em uma posição específica da lista, movendo elementos para
+    // a direita
+    public Pokemon remover(int pos) throws Exception {
+        if (n == 0 || pos < 0 || pos >= n) {
+            throw new Exception("Erro ao remover, posição inválida ou lista vazia!");
+        }
+
+        Pokemon resp = pokedex[pos];
+        n--;
+
+        for (int i = pos; i < n; i++) {
+            pokedex[i] = pokedex[i + 1];
+        }
+
+        return resp;
+    }
+
+    // Exibe todos os elementos da lista entre colchetes
+    public void mostrar() {
+        for (int i = 0; i < n; i++) {
+            System.out.println("[" + i + "] " + pokedex[i]);
         }
     }
+
+}
+
+public class Main {
 
     public static void main(String[] args) throws Exception {
 
@@ -18,7 +114,8 @@ public class Main {
 
         Scanner scanner = new Scanner(System.in);
         String entrada;
-        ArrayList<Pokemon> pokedex = new ArrayList<Pokemon>();
+        Lista pokedex = new Lista(802);
+        int numRegistros;
 
         while (true) {
             entrada = scanner.nextLine();
@@ -35,7 +132,7 @@ public class Main {
                     Pokemon pokemonEncontrado = Pokemon.buscarPokemonPorId(caminhoCsv, id);
 
                     if (pokemonEncontrado != null) {
-                        pokedex.add(pokemonEncontrado);
+                        pokedex.inserirFim(pokemonEncontrado);
                     } else {
                         System.out.println("Pokémon com ID " + id + " não encontrado.");
                     }
@@ -51,8 +148,43 @@ public class Main {
             }
         }
 
-        // Chama o método para imprimir os Pokémons ordenados
-        imprimirPokemonsOrdenados(pokedex);
+        numRegistros = scanner.nextInt();
+        String registro;
+
+        for (int i = 0; i <= numRegistros; i++) {
+            registro = scanner.nextLine();
+
+            if (registro.isEmpty()) {
+                continue; 
+            }
+            
+            if (registro.charAt(0) == 'I' && registro.charAt(1) == 'I') {
+                int id = Integer.parseInt(registro.split(" ")[1]);
+                Pokemon pokemon = Pokemon.buscarPokemonPorId(caminhoCsv, id);
+                pokedex.inserirInicio(pokemon);
+            } else if (registro.charAt(0) == 'I' && registro.charAt(1) == 'F') {
+                int id = Integer.parseInt(registro.split(" ")[1]);
+                Pokemon pokemon = Pokemon.buscarPokemonPorId(caminhoCsv, id);
+                pokedex.inserirFim(pokemon);
+            } else if (registro.charAt(0) == 'I' && registro.charAt(1) == '*') {
+                int pos = Integer.parseInt(registro.split(" ")[1]);
+                int id = Integer.parseInt(registro.split(" ")[2]);
+                Pokemon pokemon = Pokemon.buscarPokemonPorId(caminhoCsv, id);
+                pokedex.inserir(pokemon, pos);
+            } else if (registro.charAt(0) == 'R' && registro.charAt(1) == 'I') {
+                Pokemon pokemon = pokedex.removerInicio();
+                System.out.println("(R) " + pokemon.getName());
+            } else if (registro.charAt(0) == 'R' && registro.charAt(1) == 'F') {
+                Pokemon pokemon = pokedex.removerFim();
+                System.out.println("(R) " + pokemon.getName());
+            } else if (registro.charAt(0) == 'R' && registro.charAt(1) == '*') {
+                int pos = Integer.parseInt(registro.split(" ")[1]);
+                Pokemon pokemon = pokedex.remover(pos);
+                System.out.println("(R) " + pokemon.getName());
+            }
+        }
+
+        pokedex.mostrar();
 
         scanner.close();
     }
