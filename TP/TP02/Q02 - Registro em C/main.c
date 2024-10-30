@@ -335,8 +335,6 @@ int main()
         Pokemon *pokemonEncontrado = buscarPokemonPorId(listaPokemons, numPokemons, id);
         if (pokemonEncontrado)
         {
-            // CÓDIGO PARA PRINTAR POKÉMONS ORDERNADOS -- FUTURAMENTE!!!!!!!
-            //array_pokemons[x++] = pokemonEcontrado;
             printPokemon(pokemonEncontrado);
         }
         else
@@ -345,9 +343,6 @@ int main()
         }
         scanf("%s", input);
     }
-
-    // CÓDIGO PARA ORDERNAR -- FUTURAMENTE!!!!!!!
-    // for ( int i = 0; i < x; i++) printPokemon(array_pokemons[i]);
 
     //Liberar a memória alocada para os Pokemons
     for (int i = 0; i < numPokemons; i++)
