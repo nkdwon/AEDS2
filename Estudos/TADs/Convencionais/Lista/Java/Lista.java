@@ -25,7 +25,7 @@ public class Lista {
 
     // Move todos os elementos para a direita, liberando a posição 0
     for (int i = n; i > 0; i--) {
-      lista[i] = lista[n - 1];
+      lista[i] = lista[i - 1];
     }
 
     // Insere o elemento `x` na primeira posição e incrementa `n`
