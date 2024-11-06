@@ -403,8 +403,6 @@ int main()
         }
         // Verifica se a operação é de remoção de uma posição específica
         else if (registro[0] == 'R') {
-            int pos; // Variável para armazenar a posição
-            sscanf(registro + 3, "%d", &pos); // Lê a posição
             Pokemon pokemon = remover(pokedex); // Remove o Pokémon da posição especificada
             printf("(R) %s\n", pokemon.name); // Imprime o nome do Pokémon removido
         }
