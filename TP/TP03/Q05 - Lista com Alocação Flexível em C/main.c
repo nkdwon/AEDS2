@@ -10,7 +10,6 @@
 #define MAX_TYPES 2
 #define MAX_ABILITIES 100
 #define MAX_LINE_LEN 1024
-int numPokemonsPokedex = 0;
 
 typedef struct
 {
@@ -301,15 +300,28 @@ Pokemon *buscarPokemonPorId(Pokemon *lista[], int tamanhoLista, int id)
 
 typedef struct {
     Pokemon pokemon;
-    Celula *prox;
+    struct Celula *prox;
 } Celula;
 
-Celula *primeiro;
-Celula *ultimo;
 
-Celula* novaCelula(Pokemon pokemon){
+typedef struct {
+    Celula *primeiro;   
+    Celula *ultimo;
+    int numPokemonsPokedex;
+} Pokedex;
+
+Pokedex* start(){
+    Pokedex* pokedex = (Pokedex*) malloc(sizeof(Pokedex));
+    if(pokedex){
+        pokedex->primeiro = novaCelula(NULL);
+        pokedex->ultimo = pokedex->primeiro;
+        pokedex->numPokemonsPokedex = 0;
+    }
+}
+
+Celula* novaCelula(Pokemon* pokemon){
     Celula* nova = (Celula*) malloc(sizeof(Celula));
-    nova->pokemon = pokemon;
+    nova->pokemon = *pokemon;
     nova->prox = NULL;
     return nova;
 }
@@ -319,17 +331,17 @@ Celula* novaCelula(Pokemon pokemon){
  * @param pokedex Array de Pokémons onde será realizada a inserção.
  * @param pokemon Ponteiro para o Pokémon a ser inserido.
  */
-void inserirInicio(Pokemon *pokemon) {
+void inserirInicio(Pokedex *pokedex ,Pokemon *pokemon) {
 
-    Celula* tmp = novaCelula(&pokemon);
-    tmp->prox = primeiro->prox;
-    primeiro->prox = tmp;
-    if(primeiro == ultimo){
-        ultimo = tmp;
+    Celula* tmp = novaCelula(pokemon);
+    tmp->prox = pokedex->primeiro->prox;
+    pokedex->primeiro->prox = tmp;
+    if(pokedex->primeiro == pokedex->ultimo){
+        pokedex->ultimo = tmp;
     }
     tmp = NULL;
     
-    numPokemonsPokedex++; // Aumenta o contador de Pokémons  
+    pokedex->numPokemonsPokedex++; // Aumenta o contador de Pokémons  
 }   
 
 /**
@@ -337,12 +349,12 @@ void inserirInicio(Pokemon *pokemon) {
  * @param pokedex Array de Pokémons onde será realizada a inserção.
  * @param pokemon Ponteiro para o Pokémon a ser inserido.
  */
-void inserirFim(Pokemon *pokemon) {
+void inserirFim(Pokedex *pokedex,Pokemon *pokemon) {
 
     // Insere o novo Pokémon na última posição disponível
-    ultimo->prox = novaCelula(&pokemon);
-    ultimo = ultimo->prox;
-    numPokemonsPokedex++; // Aumenta o contador de Pokémons
+    pokedex->ultimo->prox = novaCelula(pokemon);
+    pokedex->ultimo = pokedex->ultimo->prox;
+    pokedex->numPokemonsPokedex++; // Aumenta o contador de Pokémons
 }
 
 
@@ -352,22 +364,25 @@ void inserirFim(Pokemon *pokemon) {
  * @param pokemon Ponteiro para o Pokémon a ser inserido.
  * @param pos Posição onde o Pokémon será inserido.
  */
-void inserir(Pokemon *pokemon, int pos) {
+void inserir(Pokedex *pokedex ,Pokemon *pokemon, int pos) {
 
    // Validar se a inserção é possível
-    if (pos < 0 || pos > numPokemonsPokedex) {
+    if (pos < 0 || pos > pokedex->numPokemonsPokedex) {
         printf("Erro ao inserir!"); // Mensagem de erro se a lista está cheia ou a posição é inválida
         exit(1); // Encerra o programa em caso de erro
+    }else if(pos == 0){
+        inserirInicio(pokedex ,pokemon);
+    } else if(pos == pokedex->numPokemonsPokedex){
+        inserirFim(pokedex, pokemon);
+    }else{
+        Celula* i = pokedex->primeiro;
+        for(int j = 0; j < pos; j++, i = i->prox);
+            Celula* tmp =  novaCelula(pokemon);
+            tmp->prox = i->prox;
+            i->prox = tmp;  
+            i = tmp = NULL; 
     }
-
-    // Mover elementos existentes para o fim do array, começando do último
-    for (int i = numPokemonsPokedex; i > pos; i--) {
-        pokedex[i] = pokedex[i - 1]; // Move cada Pokémon uma posição para a direita
-    }
-
-    // Insere o novo Pokémon na posição especificada
-    pokedex[pos] = *pokemon; 
-    numPokemonsPokedex++; // Aumenta o contador de Pokémons
+    pokedex->numPokemonsPokedex++; // Aumenta o con  tador de Pokémons
 }
 
 
@@ -376,21 +391,21 @@ void inserir(Pokemon *pokemon, int pos) {
  * @param pokedex Array de Pokémons de onde será removido o Pokémon.
  * @return O Pokémon que foi removido.
  */
-Pokemon removerInicio(Pokemon pokedex[]) {
+Pokemon removerInicio(Pokedex *pokedex) {
 
    // Validar se a remoção é possível
-    if (numPokemonsPokedex == 0) {
+    if (pokedex->primeiro == pokedex->ultimo) {
         printf("Erro ao remover!"); // Mensagem de erro se a lista está vazia
         exit(1); // Encerra o programa em caso de erro
     }
 
-    Pokemon resp = pokedex[0]; // Guarda o Pokémon que será removido
-    numPokemonsPokedex--; // Diminui o contador de Pokémons
-
-    // Mover os elementos restantes para o início do array
-    for (int i = 0; i < numPokemonsPokedex; i++) {
-        pokedex[i] = pokedex[i + 1]; // Move cada Pokémon uma posição para a esquerda
-    }
+    Celula* tmp = pokedex->primeiro;
+    pokedex->primeiro = pokedex->primeiro->prox;
+    Pokemon resp = pokedex->primeiro->pokemon;
+    tmp->prox = NULL;
+    free(tmp);
+    tmp = NULL;
+    pokedex->numPokemonsPokedex--; // Diminui o contador de Pokémons
 
     return resp; // Retorna o Pokémon removido
 }
@@ -401,15 +416,24 @@ Pokemon removerInicio(Pokemon pokedex[]) {
  * @param pokedex Array de Pokémons de onde será removido o Pokémon.
  * @return O Pokémon que foi removido.
  */
-Pokemon removerFim(Pokemon pokedex[]) {
+Pokemon removerFim(Pokedex *pokedex) {
 
    // Validar se a remoção é possível
-    if (numPokemonsPokedex == 0) {
+    if (pokedex->primeiro == pokedex->ultimo) {
         printf("Erro ao remover!"); // Mensagem de erro se a lista está vazia
         exit(1); // Encerra o programa em caso de erro
     }
 
-    return pokedex[--numPokemonsPokedex]; // Diminui o contador de Pokémons e retorna o Pokémon da última posição
+    Celula* i;
+    for(i = pokedex->primeiro; i->prox != pokedex->ultimo; i = i->prox);
+
+    Pokemon resp = pokedex->ultimo->pokemon;
+    pokedex->ultimo = i;
+    free(pokedex->ultimo->prox);
+    i = pokedex->ultimo->prox = NULL;
+    pokedex->numPokemonsPokedex--;
+
+    return resp; // Diminui o contador de Pokémons e retorna o Pokémon da última posição
 }
 
 
@@ -419,21 +443,33 @@ Pokemon removerFim(Pokemon pokedex[]) {
  * @param pos Posição de remoção.
  * @return O Pokémon que foi removido.
  */
-Pokemon remover(int pos) {
-    // Validar se a remoção é possível
-    if (numPokemonsPokedex == 0 || pos < 0 || pos >= numPokemonsPokedex) {
-        printf("Erro ao remover!"); // Mensagem de erro se a lista está vazia ou a posição é inválida
+Pokemon remover(Pokedex *pokedex ,int pos) {
+    
+    Pokemon resp;
+
+    if(pokedex->primeiro == pokedex->ultimo){
+        printf("Erro ao remover!"); // Mensagem de erro se a lista está vazia
         exit(1); // Encerra o programa em caso de erro
+    } else if(pos < 0 || pos >= pokedex->numPokemonsPokedex){
+        printf("Erro ao remover!"); // Mensagem de erro se a lista está vazia
+        exit(1); // Encerra o programa em caso de erro
+    } else if (pos == pokedex->primeiro){
+        resp = removerInicio(pokedex);
+    } else if (pos == pokedex->ultimo){
+        resp = removerFim(pokedex);
+    } else {
+
+        Celula* i = pokedex->primeiro;
+
+        for(int j = 0; j < pos; j++, i = i->prox);
+        Celula* tmp = i ->prox;
+        resp = tmp->pokemon;
+        i->prox = tmp->prox;
+        tmp->prox = NULL;
+        free(tmp);
+        i = tmp = NULL;
     }
-
-    Pokemon resp = pokedex[pos]; // Guarda o Pokémon que será removido
-    numPokemonsPokedex--; // Diminui o contador de Pokémons
-
-    // Mover os elementos restantes para o início do array
-    for (int i = pos; i < numPokemonsPokedex; i++) {
-        pokedex[i] = pokedex[i + 1]; // Move cada Pokémon uma posição para a esquerda
-    }
-
+    pokedex->numPokemonsPokedex--;
     return resp; // Retorna o Pokémon removido
 }
 
@@ -442,11 +478,13 @@ Pokemon remover(int pos) {
  * Mostra todos os Pokémons armazenados na Pokédex.
  * @param pokedex Array de Pokémons a ser exibido.
  */
-void mostrar(Pokemon pokedex[]) {
+void mostrar(Pokedex *pokedex) {
     // Itera sobre a lista de Pokémons e imprime cada um
-    for (int i = 0; i < numPokemonsPokedex; i++) {
-        printf("[%d] ", i); // Exibe o índice do Pokémon
-        printPokemon(&pokedex[i]); // Chama uma função para imprimir as informações do Pokémon
+    Celula* i;
+    int j = 0;
+    for (i = pokedex->primeiro->prox; i != NULL;j++, i = i->prox) {
+        printf("[%d] ", j); // Exibe o índice do Pokémon
+        printPokemon(&i->pokemon); // Chama uma função para imprimir as informações do Pokémon
     }
 }
 
@@ -458,8 +496,10 @@ int main()
     int numPokemons = 0;
     char input[MAX_NAME_LEN];
 
+    Pokedex* pokedex = start();
+
     // Diretório arquivo CSV
-    arquivo = fopen("D:/FELIPE/PUC Faculdade/SEMESTRE II/AEDS2/TP/TP03/pokemon.csv", "r");
+    arquivo = fopen("C:/Users/732683/Atividades/AEDS2/TP/TP03/pokemon.csv", "r");
     if (arquivo == NULL)
     { 
         printf("Erro ao abrir o arquivo.\n");
@@ -489,8 +529,7 @@ int main()
         Pokemon *pokemonEncontrado = buscarPokemonPorId(listaPokemons, numPokemons, id);
         if (pokemonEncontrado)
         {
-            inserirFim(&pokemonEncontrado);
-            numPokemonsPokedex++;
+            inserirFim(pokedex ,pokemonEncontrado);
         }
         else
         {
@@ -562,7 +601,6 @@ int main()
         freePokemon(listaPokemons[i]);
     }
     free(listaPokemons);
-    free(pokedex);
 
     return 0;
 }
