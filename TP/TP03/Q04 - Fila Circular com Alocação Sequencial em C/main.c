@@ -303,54 +303,64 @@ Pokemon *buscarPokemonPorId(Pokemon *lista[], int tamanhoLista, int id)
     return NULL;
 }
 
-int mediaCaptureRateFila(Pokemon pokedex[]){
-    
-    float media = 0;
-    for(int i = primeiro; i != ultimo; i = (i+1)%MAX_TAM_FILA){
-        if (pokedex[i].id != -1) {
-            media += pokedex[i].captureRate;
+/**
+ * Calcula a média de capture rate de todos os Pokémons na fila.
+ * @param pokedex Array de Pokémons representando a fila.
+ * @return Retorna a média de capture rate arredondada para um valor inteiro.
+ */
+int mediaCaptureRateFila(Pokemon pokedex[]) {
+    float media = 0; 
+    for(int i = primeiro; i != ultimo; i = (i + 1) % MAX_TAM_FILA) {  // Percorre a fila circular
+        if (pokedex[i].id != -1) {  // Verifica se o Pokémon no índice `i` é válido
+            media += pokedex[i].captureRate;  // Soma o capture rate do Pokémon
         }
     }
-    media /= numPokemonsPokedex;
-    return (int)round(media);
+    media /= numPokemonsPokedex;  // Calcula a média de capture rate
+    return (int)round(media);  // Arredonda e retorna a média como um inteiro
 }
 
-// Remover no inicio
-Pokemon remover(Pokemon pokedex[]){
-
-    if(primeiro == ultimo){
+/**
+ * Remove um Pokémon do início da fila.
+ * @param pokedex Array de Pokémons representando a fila.
+ * @return Retorna o Pokémon removido.
+ */
+Pokemon remover(Pokemon pokedex[]) {
+    if(primeiro == ultimo) {  // Verifica se a fila está vazia
         printf("Erro ao remover!");
         exit(1);
     }
 
-    Pokemon resp = pokedex[primeiro];
-    pokedex[primeiro].id = -1;
-    primeiro = (primeiro + 1) % MAX_TAM_FILA;
-    numPokemonsPokedex--;
-    return resp;
-}
-
-// Inserir no fim
-void inserir(Pokemon pokedex[], Pokemon *pokemon){
-
-    if (((ultimo + 1) % MAX_TAM_FILA) == primeiro) {
-        remover(pokedex);
-    }
-
-    pokedex[ultimo] = *pokemon;
-    ultimo = (ultimo + 1) % MAX_TAM_FILA;
-    numPokemonsPokedex++;   
+    Pokemon resp = pokedex[primeiro];  // Armazena o Pokémon do início da fila para retornar
+    pokedex[primeiro].id = -1;  // Marca a célula como vazia, para controle
+    primeiro = (primeiro + 1) % MAX_TAM_FILA;  // Atualiza o índice de início para o próximo elemento
+    numPokemonsPokedex--;  // Decrementa o contador de Pokémons na fila
+    return resp; 
 }
 
 /**
- * Mostra todos os Pokémons armazenados na Pokédex.
+ * Insere um Pokémon no final da fila.
+ * @param pokedex Array de Pokémons representando a fila.
+ * @param pokemon Ponteiro para o Pokémon a ser inserido.
+ */
+void inserir(Pokemon pokedex[], Pokemon *pokemon) {
+    if (((ultimo + 1) % MAX_TAM_FILA) == primeiro) {  // Verifica se a fila está cheia (circular)
+        remover(pokedex);  // Remove o Pokémon mais antigo para liberar espaço
+    }
+
+    pokedex[ultimo] = *pokemon;  // Insere o novo Pokémon na posição do índice `ultimo`
+    ultimo = (ultimo + 1) % MAX_TAM_FILA;  // Atualiza o índice `ultimo` para a próxima posição circular
+    numPokemonsPokedex++; 
+}
+
+/**
+ * Mostra todos os Pokémons armazenados na fila.
  * @param pokedex Array de Pokémons a ser exibido.
  */
-void mostrar(Pokemon pokedex[]) {   
-    // Itera sobre a lista de Pokémons e imprime cada um
-    for (int i = primeiro, j = 0; i != ultimo ; i = ((i+1) % MAX_TAM_FILA), j++) {
-        printf("[%d] ", j); // Exibe o índice do Pokémon
-        printPokemon(&pokedex[i]); // Chama uma função para imprimir as informações do Pokémon
+void mostrar(Pokemon pokedex[]) {
+    // Percorre a fila circular a partir de `primeiro` até `ultimo`
+    for (int i = primeiro, j = 0; i != ultimo; i = ((i + 1) % MAX_TAM_FILA), j++) {
+        printf("[%d] ", j);  // Exibe o índice lógico do Pokémon na fila
+        printPokemon(&pokedex[i]);  // Imprime as informações do Pokémon
     }
 }
 
