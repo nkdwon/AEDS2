@@ -300,35 +300,44 @@ Pokemon *buscarPokemonPorId(Pokemon *lista[], int tamanhoLista, int id)
     return NULL;
 }
 
-void inserir(Pokemon pokedex[], Pokemon *pokemon){
-    if(numPokemonsPokedex > MAX_TAM_PILHA){
+/**
+ * Insere um Pokémon na pilha sequencial.
+ * @param pokedex Array de Pokémons representando a pilha.
+ * @param pokemon Ponteiro para o Pokémon a ser inserido na pilha.
+ */
+void inserir(Pokemon pokedex[], Pokemon *pokemon) {
+    if(numPokemonsPokedex > MAX_TAM_PILHA) {  // Verifica se a pilha está cheia
         printf("Erro ao inserir na pilha!");
-        exit(1);
+        exit(1); 
     }
 
-    pokedex[numPokemonsPokedex] = *pokemon;
-    numPokemonsPokedex++;   
-
-}
-
-Pokemon remover(Pokemon pokedex[]){
-    if(numPokemonsPokedex == 0){
-        printf("Erro ao remover!");
-        exit(1);
-    }
-
-    return pokedex[--numPokemonsPokedex];
+    pokedex[numPokemonsPokedex] = *pokemon;  // Adiciona o Pokémon no topo da pilha
+    numPokemonsPokedex++;  // Incrementa o contador de Pokémons na pilha
 }
 
 /**
- * Mostra todos os Pokémons armazenados na Pokédex.
+ * Remove o Pokémon do topo da pilha.
+ * @param pokedex Array de Pokémons representando a pilha.
+ * @return Retorna o Pokémon removido.
+ */
+Pokemon remover(Pokemon pokedex[]) {
+    if(numPokemonsPokedex == 0) {  // Verifica se a pilha está vazia
+        printf("Erro ao remover!");
+        exit(1); 
+    }
+
+    return pokedex[--numPokemonsPokedex];  // Decrementa o contador e retorna o Pokémon removido
+}
+
+/**
+ * Mostra todos os Pokémons armazenados na pilha sequencial.
  * @param pokedex Array de Pokémons a ser exibido.
  */
 void mostrar(Pokemon pokedex[]) {   
     // Itera sobre a lista de Pokémons e imprime cada um
-    for (int i = 0; i < numPokemonsPokedex; i++) {
-        printf("[%d] ", i); // Exibe o índice do Pokémon
-        printPokemon(&pokedex[i]); // Chama uma função para imprimir as informações do Pokémon
+    for (int i = 0; i < numPokemonsPokedex; i++) {  
+        printf("[%d] ", i);  // Exibe o índice do Pokémon
+        printPokemon(&pokedex[i]);  // Imprime as informações do Pokémon
     }
 }
 
