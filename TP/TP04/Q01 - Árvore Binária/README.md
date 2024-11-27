@@ -6,6 +6,4 @@ Crie uma Árvore Binária, fazendo inserções de registros conforme a entrada p
 
 A saída padrão é composta por várias linhas, uma para cada pesquisa. Cada linha é composta pelo caminho ou sequência de ponteiros (*raiz, esq ou dir*) utilizados na pesquisa e, no final, pelas palavras SIM ou NAO.
 
-
-
 Além disso, crie um arquivo de log na pasta corrente com o nome matrícula_arvoreBinaria.txt com uma única linha contendo sua matrícula, tempo de execução do seu algoritmo e número de comparações. Todas as informações do arquivo de log devem ser separadas por uma tabulação '\textbackslash t'.
