@@ -1,0 +1,7 @@
+## JAVA
+### TP04Q02 - Árvore Binária de Árvore Binárias
+#### Descrição
+
+Refaça a questão anterior, contudo, considerando a estrutura de árvore de árvore. Nessa estrutura, temos uma árvore binária tradicional na qual cada nó tem um ponteiro para outra árvore binária. Graficamente, a primeira árvore está no plano xy e a árvore de seus nós pode ser imaginada no espaço tridimensional. Temos dois tipos de nós. O primeiro tem um número inteiro como chave, os ponteiros esq e dir (ambos para nós do primeiro tipo) e um ponteiro para nós do segundo tipo. O outro nó tem uma String como chave e os ponteiros esq e dir (ambos para nós do segundo tipo). A chave de pesquisa da primeira árvore é o atributo **captureRate mod 15** e, da outra, é o atributo **name**.
+
+Destaca-se que nossa pesquisa faz um mostrar na primeira árvore e um mostrar na segunda. Faremos um mostrar na primeira árvore porque ela é organizada pelo **captureRate mod 15**, permitindo que o valor desejado esteja na segunda árvore de qualquer um de seus nós. Faremos o mostrar na segunda porque ela é organizada pelo atributo **name**. Antes de inserir qualquer elemento, crie a primeira árvore, inserindo todos seus nós e respeitando a ordem **7, 3, 11, 1, 5, 9, 13, 0, 2, 4, 6, 8, 10, 12 e 14**. O arquivo de log será matrícula_arvoreArvore.txt.
