@@ -426,7 +426,7 @@ int main()
     clock_t start, end;
 
     // Diretório arquivo CSV
-    arquivo = fopen("D:/FELIPE/PUC Faculdade/SEMESTRE II/AEDS2/TP/TP04/pokemon.csv", "r");
+    arquivo = fopen("/tmp/pokemon.csv", "r");
     if (arquivo == NULL)
     {
         printf("Erro ao abrir o arquivo.\n");
